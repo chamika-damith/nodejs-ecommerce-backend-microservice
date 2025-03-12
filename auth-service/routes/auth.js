@@ -10,11 +10,6 @@ const router = express.Router();
 router.post('/signup', async (req, res) => {
     const {name, email, password} = req.body;
     try {
-        // Check if the user already exists
-        const existingUser = await User.findOne(email);
-        if (existingUser) {
-            return res.status(400).json({message: 'Email is already in use'});
-        }
 
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);

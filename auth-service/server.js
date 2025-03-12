@@ -1,6 +1,6 @@
 const express = require('express')
-const dotenv  = require('dotenv')
-const sequelize = require('sequelize')
+const dotenv = require('dotenv')
+const sequelize = require('./config/database')
 const authRoutes = require('./routes/auth');
 
 dotenv.config();
@@ -13,10 +13,10 @@ app.use('/auth', authRoutes);
 const PORT = process.env.PORT || 5000;
 
 try {
-    sequelize.sync().then(()=>{
+    sequelize.sync().then(() => {
         console.log('Database connection successful');
-        app.listen(PORT,()=> console.log(`Server running on port ${PORT}`));
+        app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     })
-}catch (err) {
+} catch (err) {
     console.error(err);
 }
