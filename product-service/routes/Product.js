@@ -36,3 +36,21 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+// Update product by ID
+router.put('/update/:id', async (req, res) => {
+    try {
+        const { name, description, price, stock } = req.body;
+
+        const product = await Product.findByPk(req.params.id);
+
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        await product.update({name,description,price,stock});
+        res.status(200).json(product);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
