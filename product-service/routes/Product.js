@@ -13,3 +13,13 @@ router.post('/save', async (req, res) =>{
         res.status(400).json({message: err.message});
     }
 });
+
+// Get all products
+router.get('/all', async (req, res) => {
+    try {
+        const products = await Product.findAll();
+        res.status(200).json(products);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
