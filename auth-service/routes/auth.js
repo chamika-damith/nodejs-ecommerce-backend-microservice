@@ -49,6 +49,22 @@ router.post('/login', async (req, res) => {
     } catch (err) {
         res.status(400).json({message: err.message});
     }
-})
+});
+
+//protected route
+router.get('/me', async (req,res)=>{
+    const token = req.headers['authorization'];
+    if (!token) {
+        res.status(401).json({message:'Access Denied'});
+    }
+
+    try{
+        const decode = jwt.verify(token,process.env.JWT_SECRET);
+        const user = await User.findByPk(decode.userId);
+        res.json(user);
+    }catch(err){
+        res.status(400).json({message:'Invalid credentials'});
+    }
+});
 
 module.exports = router;
