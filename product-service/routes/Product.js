@@ -54,3 +54,19 @@ router.put('/update/:id', async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
+
+// Delete product by ID
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const product = await Product.findByPk(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        await product.destroy();
+
+        res.status(200).json({ message: 'Product deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
