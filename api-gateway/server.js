@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const verifyToken = require('./middleware/auth');
 
 dotenv.config();
 const app = express();
@@ -16,8 +17,8 @@ const ORDER_SERVICE = process.env.ORDER_SERVICE_URL;
 
 //routes
 app.use('/auth',createProxyMiddleware({target:AUTH_SERVICE,changeOrigin:true}));
-app.use('/products',createProxyMiddleware({target:PRODUCT_SERVICE,changeOrigin:true}));
-app.use('/orders',createProxyMiddleware({target:ORDER_SERVICE,changeOrigin:true}));
+app.use('/products',verifyToken,createProxyMiddleware({target:PRODUCT_SERVICE,changeOrigin:true}));
+app.use('/orders',verifyToken,createProxyMiddleware({target:ORDER_SERVICE,changeOrigin:true}));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, ()=> console.log('API GATEWAY running on port '+PORT));
