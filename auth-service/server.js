@@ -10,7 +10,7 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5003;
 
 try {
     sequelize.sync().then(() => {
